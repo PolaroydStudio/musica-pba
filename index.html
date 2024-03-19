@@ -22,6 +22,17 @@
                     }.bind(this));
                 },
             });
+
+            AFRAME.registerComponent('soundhandler', {
+                tick: function () {
+                    var entity = document.querySelector('[sound]');
+                    if (document.querySelector('a-marker').object3D.visible == true) {
+                        entity.components.sound.playSound();
+                    } else {
+                        entity.components.sound.pauseSound();
+                    }
+                }
+            });
         </script>
     </head>
 
@@ -33,6 +44,7 @@
             id="scene"
             embedded
             gesture-detector
+            soundhandler
         >
             <a-assets>
                 <video
@@ -65,17 +77,19 @@
                 id="markerA"
             >
                 <a-video
+                    sound
                     src="#vid"
                     scale="1 1 1"
                     position="0 0.1 0"
                     rotation="-90 0 0"
                     class="clickable"
                     gesture-handler
+                    autoplay
+                    loop
                 ></a-video>
             </a-marker>
 
             <a-entity camera></a-entity>
-            <a-audio src="#audio" autoplay></a-audio>
         </a-scene>
     </body>
 </html>
