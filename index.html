@@ -7,17 +7,17 @@
     AFRAME.registerComponent('markerhandler', {
       init: function () {
         var marker = this.el;
+        var video = document.querySelector('#video');
         var audio = document.querySelector('#audio');
-        var plane = document.querySelector('#plane');
 
         marker.addEventListener('markerFound', function () {
+          video.play();
           audio.play();
-          plane.setAttribute('visible', true);
         });
 
         marker.addEventListener('markerLost', function () {
+          video.pause();
           audio.pause();
-          plane.setAttribute('visible', false);
         });
       }
     });
@@ -26,8 +26,8 @@
 <body style="margin: 0; overflow: hidden;">
   <a-scene vr-mode-ui="enabled: false" loading-screen="enabled: false;" arjs='sourceType: webcam; debugUIEnabled: false;'>
     <a-assets>
+      <video id="video" src="assets/video.mp4" preload="auto" loop></video>
       <audio id="audio" src="assets/audio.mp3" preload="auto"></audio>
-      <a-plane id="plane" width="1" height="1" color="blue" visible="false"></a-plane>
     </a-assets>
     <a-marker type="pattern" preset="custom" url="assets/marker.patt" markerhandler></a-marker>
     <a-entity camera></a-entity>
