@@ -1,82 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
-    <script>
-      AFRAME.registerComponent('videohandler', {
-        init: function () {
-          var marker = this.el;
-          this.vid = document.querySelector("#vid");
-            this.loading = document.querySelector("#loading");
+  <head>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
+    <script>
+      AFRAME.registerComponent('videohandler', {
+        init: function () {
+          var marker = this.el;
+          this.vid = document.querySelector("#vid");
+          this.loadingText = document.getElementById("loading-text");
 
-          marker.addEventListener('markerFound', function () {
-            this.toggle = true;
-            this.vid.play();
-                this.loading.style.display = "none";
-          }.bind(this));
+          marker.addEventListener('markerFound', function () {
+            this.toggle = true;
+            this.vid.play();
+            this.loadingText.style.display = "none";
+          }.bind(this));
 
-          marker.addEventListener('markerLost', function () {
-            this.toggle = false;
-            this.vid.pause();
-                this.loading.style.display = "block";
-          }.bind(this));
-        },
-      });
-    </script>
-  </head>
+          marker.addEventListener('markerLost', function () {
+            this.toggle = false;
+            this.vid.pause();
+            this.loadingText.style.display = "block";
+          }.bind(this));
 
-  <body style="margin: 0; overflow: hidden;">
-    <a-scene
-      vr-mode-ui="enabled: false"
-      loading-screen="enabled: false;"
-      arjs='sourceType: webcam; debugUIEnabled: false;'
-      id="scene"
-      embedded
-      gesture-detector
-    >
-      <a-assets>
-        <video
-          id="vid"
-          src="assets/asset.mp4"
-          preload="auto"
-          response-type="arraybuffer"
-          loop
-          crossorigin
-          webkit-playsinline
-          autoplay
-          playsinline
-        ></video>
-        <img id="loading" src="assets/loading.png" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-      </a-assets>
+          // Check video loaded metadata to hide text on successful load
+          this.vid.addEventListener("loadedmetadata", function () {
+            this.loadingText.style.display = "none";
+          }.bind(this));
+        },
+      });
+    </script>
+  </head>
 
-      <a-marker
-        type="pattern"
-        preset="custom"
-        url="assets/marker.patt"
-        videohandler
-        smooth="true"
-        smoothCount="10"
-        smoothTolerance="0.01"
-        smoothThreshold="5"
-        raycaster="objects: .clickable"
-        emitevents="true"
-        cursor="fuse: false; rayOrigin: mouse;"
-        id="markerA"
-      >
-        <a-video
-          src="#vid"
-          scale="1 1 1"
-          position="0 0.1 0"
-          rotation="-90 0 0"
-          class="clickable"
-          gesture-handler
-        ></a-video>
-      </a-marker>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      loading-screen="enabled: false;"
+      arjs='sourceType: webcam; debugUIEnabled: false;'
+      id="scene"
+      embedded
+      gesture-detector
+    >
+      <a-assets>
+        <video
+          id="vid"
+          src="assets/asset.mp4"
+          preload="auto"
+          response-type="arraybuffer"
+          loop
+          crossorigin
+          webkit-playsinline
+          autoplay
+          playsinline
+        ></video>
+      </a-assets>
 
-      <a-entity camera></a-entity>
-    </a-scene>
-  </body>
+      <a-marker
+        type="pattern"
+        preset="custom"
+        url="assets/marker.patt"
+        videohandler
+        smooth="true"
+        smoothCount="10"
+        smoothTolerance="0.01"
+        smoothThreshold="5"
+        raycaster="objects: .clickable"
+        emitevents="true"
+        cursor="fuse: false; rayOrigin: mouse;"
+        id="markerA"
+      >
+        <a-video
+          src="#vid"
+          scale="1 1 1"
+          position="0 0.1 0"
+          rotation="-90 0 0"
+          class="clickable"
+          gesture-handler
+        ></a-video>
+      </a-marker>
+
+      <a-entity id="loading-text" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2em; color: #fff;">Cargando</a-entity>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
 </html>
