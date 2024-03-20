@@ -7,11 +7,16 @@
     AFRAME.registerComponent('markerhandler', {
       init: function () {
         var marker = this.el;
+        var audio = document.querySelector('#audio');
+
         marker.addEventListener('markerFound', function () {
           this.el.setAttribute('visible', true);
+          audio.play();
         });
+
         marker.addEventListener('markerLost', function () {
           this.el.setAttribute('visible', false);
+          audio.pause();
         });
       }
     });
@@ -23,7 +28,7 @@
       <audio id="audio" src="assets/audio.mp3" preload="auto"></audio>
     </a-assets>
     <a-marker type="pattern" preset="custom" url="assets/marker.patt" markerhandler>
-      <a-sphere radius="0.5" color="red" visible="false" sound="src: #audio; autoplay: true"></a-sphere>
+      <a-sphere radius="0.5" color="red" visible="false"></a-sphere>
     </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
