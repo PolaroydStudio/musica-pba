@@ -20,9 +20,10 @@
 <body style="margin: 0; overflow: hidden;">
   <a-scene vr-mode-ui="enabled: false" loading-screen="enabled: false;" arjs='sourceType: webcam; debugUIEnabled: false;'>
     <a-assets>
+      <audio id="audio" src="assets/audio.mp3" preload="auto"></audio>
     </a-assets>
     <a-marker type="pattern" preset="custom" url="assets/marker.patt" markerhandler>
-      <a-sphere radius="0.5" color="red"></a-sphere>
+      <a-sphere radius="0.5" color="red" visible="false" sound="src: #audio; autoplay: true"></a-sphere>
     </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
