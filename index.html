@@ -40,7 +40,16 @@
                 ></video>
       <audio id="audio" src="assets/audio.mp3" preload="auto"></audio>
     </a-assets>
-    <a-marker type="pattern" preset="custom" url="assets/marker.patt" markerhandler></a-marker>
+    <a-marker type="pattern" preset="custom" url="assets/marker.patt" markerhandler>
+      <a-video
+                    src="#vid"
+                    scale="1 1 1"
+                    position="0 0.1 0"
+                    rotation="-90 0 0"
+                    class="clickable"
+                    gesture-handler
+                ></a-video>
+    </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
 </body>
