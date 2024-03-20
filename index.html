@@ -26,7 +26,18 @@
 <body style="margin: 0; overflow: hidden;">
   <a-scene vr-mode-ui="enabled: false" loading-screen="enabled: false;" arjs='sourceType: webcam; debugUIEnabled: false;'>
     <a-assets>
-      <video id="video" src="assets/video.mp4" preload="auto" loop></video>
+      <video
+                    id="vid"
+                    src="assets/video.mp4"
+                    preload="auto"
+                    response-type="arraybuffer"
+                    loop
+                    crossorigin
+                    webkit-playsinline
+                    autoplay
+                    muted
+                    playsinline
+                ></video>
       <audio id="audio" src="assets/audio.mp3" preload="auto"></audio>
     </a-assets>
     <a-marker type="pattern" preset="custom" url="assets/marker.patt" markerhandler></a-marker>
